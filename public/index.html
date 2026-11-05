@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyglot AI - Tradução Segura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between font-sans selection:bg-indigo-500 selection:text-white">
+
+    <!-- TELA DE BLOQUEIO (LOGIN OBRIGATÓRIO) -->
+    <div id="loginModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-lock text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">Acesso Exclusivo</h2>
+            <p class="text-slate-400 text-sm mb-6">Para utilizar a ferramenta, conecte sua conta Google.</p>
+            
+            <button id="googleLoginBtn" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 transition shadow-lg">
+                <i class="fa-brands fa-google text-red-500 text-lg"></i>
+                Entrar com Google (Gmail)
+            </button>
+            <p class="text-xs text-slate-500 mt-4"><i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i> Seus dados estão seguros e criptografados.</p>
+        </div>
+    </div>
+
+    <!-- TOPO -->
+    <header class="w-full max-w-5xl mx-auto flex items-center justify-between p-4 md:py-6 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-language text-xl text-white"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">Polyglot <span class="text-indigo-400">Studio</span></h1>
+                <p class="text-xs text-slate-400">Tradução instantânea de alta precisão</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full">
+                <i class="fa-regular fa-user text-indigo-400 text-xs"></i>
+                <span id="userBadge" class="text-xs font-medium text-slate-300">Conectando...</span>
+            </div>
+            <button id="logoutBtn" class="text-xs text-red-400 hover:text-red-300 transition" title="Sair"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </div>
+    </header>
+
+    <!-- TRADUTOR -->
+    <main class="w-full max-w-5xl mx-auto my-auto p-4 md:py-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4 bg-slate-900/60 p-3 rounded-2xl border border-slate-800">
+            <span class="text-sm font-medium bg-slate-800 px-3 py-1 rounded-lg text-slate-200">Português (Detectado)</span>
+            <i class="fa-solid fa-arrow-right text-slate-500"></i>
+            <select id="targetLang" class="bg-slate-800 border border-slate-700 text-sm font-medium rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="en">Inglês (English)</option>
+                <option value="es">Espanhol (Español)</option>
+                <option value="fr">Francês (Français)</option>
+                <option value="de">Alemão (Deutsch)</option>
+                <option value="it">Italiano (Italiano)</option>
+            </select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Entrada -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 flex flex-col justify-between shadow-2xl focus-within:border-indigo-500 transition">
+                <textarea id="inputText" rows="7" placeholder="Digite sua frase aqui..." class="w-full bg-transparent resize-none text-slate-100 placeholder-slate-500 focus:outline-none text-base leading-relaxed"></textarea>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-800 mt-2">
+                    <span id="charCount" class="text-xs text-slate-500">0 / 500 caracteres</span>
+                    <button id="translateBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-indigo-600/30">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Traduzir
+                    </button>
+                </div>
+            </div>
+
+            <!-- Saída -->
+            <div class="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-5 flex flex-col justify-between">
+                <div id="outputText" class="text-slate-400 text-base leading-relaxed min-h-[160px] italic flex items-center justify-center text-center">
+                    A tradução aparecerá aqui...
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-800 mt-2 text-xs text-slate-500">
+                    <span id="statusIndicator">Pronto</span>
+                    <button id="copyBtn" class="hover:text-white transition"><i class="fa-regular fa-copy mr-1"></i>Copiar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full text-center py-4 text-xs text-slate-600">
+        Polyglot App • Uso restrito e autenticado
+    </footer>
+
+    <script>
+        let currentUser = localStorage.getItem('user_gmail');
+        const loginModal = document.getElementById('loginModal');
+        const userBadge = document.getElementById('userBadge');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const targetLang = document.getElementById('targetLang');
+        const translateBtn = document.getElementById('translateBtn');
+        const charCount = document.getElementById('charCount');
+        const statusIndicator = document.getElementById('statusIndicator');
+
+        function checkAuth() {
+            if (currentUser) {
+                loginModal.classList.add('hidden');
+                userBadge.innerText = currentUser;
+            } else {
+                loginModal.classList.remove('hidden');
+            }
+        }
+        checkAuth();
+
+        googleLoginBtn.addEventListener('click', () => {
+            const email = prompt("Informe seu e-mail do Gmail para entrar:", "usuario@gmail.com");
+            if (email && email.includes('@')) {
+                localStorage.setItem('user_gmail', email);
+                currentUser = email;
+                checkAuth();
+            } else {
+                alert("E-mail inválido!");
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('user_gmail');
+            location.reload();
+        });
+
+        inputText.addEventListener('input', () => {
+            charCount.innerText = `${inputText.value.length} / 500 caracteres`;
+        });
+
+        translateBtn.addEventListener('click', async () => {
+            const text = inputText.value.trim();
+            if (!text) return alert("Digite algo para traduzir!");
+
+            statusIndicator.innerText = "Processando...";
+            outputText.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-indigo-400 text-xl"></i>`;
+
+            try {
+                const response = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: currentUser,
+                        text: text,
+                        targetLang: targetLang.value
+                    })
+                });
+
+                const data = await response.json();
+                outputText.innerText = data.translatedText;
+                outputText.classList.remove('italic', 'text-slate-400', 'flex', 'items-center', 'justify-center');
+                statusIndicator.innerText = "Tradução concluída!";
+            } catch (err) {
+                outputText.innerText = "Erro ao traduzir.";
+                statusIndicator.innerText = "Falha no servidor";
+            }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            if (outputText.innerText && !outputText.innerText.includes('aparecerá aqui')) {
+                navigator.clipboard.writeText(outputText.innerText);
+                alert("Copiado!");
+            }
+        });
+    </script>
+</body>
+</html>

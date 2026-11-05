@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Dono - Dados dos Usuários</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 font-sans">
+
+    <!-- LOGIN DO DONO -->
+    <div id="adminGate" class="fixed inset-0 bg-slate-950 flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl text-center">
+            <i class="fa-solid fa-user-shield text-4xl text-amber-400 mb-4"></i>
+            <h2 class="text-xl font-bold mb-2">Acesso Exclusivo do Dono</h2>
+            <p class="text-slate-400 text-sm mb-6">Digite sua senha master para desbloquear o banco de dados.</p>
+            <input type="password" id="adminPass" placeholder="Senha do Dono" class="w-full bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-amber-400">
+            <button id="unlockBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition">Entrar no Painel</button>
+        </div>
+    </div>
+
+    <!-- PAINEL PRINCIPAL -->
+    <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-indigo-400"></i>
+                    Painel do Dono • Histórico de Uso
+                </h1>
+                <p class="text-slate-400 text-sm">Visualização em tempo real de tudo o que os usuários digitam</p>
+            </div>
+            <button id="refreshBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-4 py-2 rounded-xl transition flex items-center gap-2">
+                <i class="fa-solid fa-rotate"></i> Atualizar Dados
+            </button>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-800 bg-slate-900 text-xs font-semibold uppercase text-slate-400 tracking-wider">
+                        <th class="p-4">Data / Hora</th>
+                        <th class="p-4">Usuário (Gmail)</th>
+                        <th class="p-4">Idioma</th>
+                        <th class="p-4">Texto Original</th>
+                        <th class="p-4">Tradução Gerada</th>
+                    </tr>
+                </thead>
+                <tbody id="logsTable" class="text-sm divide-y divide-slate-800 text-slate-300">
+                    <tr><td colspan="5" class="p-6 text-center text-slate-500">Carregando dados...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentPass = '';
+        const adminGate = document.getElementById('adminGate');
+        const adminPass = document.getElementById('adminPass');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const logsTable = document.getElementById('logsTable');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        async function fetchLogs() {
+            try {
+                const res = await fetch('/api/admin/logs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: currentPass })
+                });
+
+                if (res.status === 401) {
+                    alert('Senha incorreta!');
+                    return;
+                }
+
+                const data = await res.json();
+                adminGate.classList.add('hidden');
+
+                if (data.logs.length === 0) {
+                    logsTable.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-500">Nenhuma tradução feita ainda.</td></tr>`;
+                    return;
+                }
+
+                logsTable.innerHTML = data.logs.map(log => `
+                    <tr class="hover:bg-slate-800/40 transition">
+                        <td class="p-4 text-xs text-slate-500 whitespace-nowrap">${log.dataHora}</td>
+                        <td class="p-4 font-medium text-indigo-300 whitespace-nowrap">
+                            <i class="fa-solid fa-envelope mr-1 text-slate-500"></i>${log.email}
+                        </td>
+                        <td class="p-4 uppercase text-xs font-bold text-amber-400">${log.idioma}</td>
+                        <td class="p-4 max-w-xs break-words">${log.textoOriginal}</td>
+                        <td class="p-4 max-w-xs break-words text-slate-400">${log.traducao}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                alert('Erro ao buscar dados do servidor.');
+            }
+        }
+
+        unlockBtn.addEventListener('click', () => {
+            currentPass = adminPass.value;
+            fetchLogs();
+        });
+
+        refreshBtn.addEventListener('click', fetchLogs);
+    </script>
+</body>
+</html>
