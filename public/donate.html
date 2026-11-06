@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS South Brazil - Climate Disaster Relief</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-red-600 selection:text-white">
+
+    <div class="bg-gradient-to-r from-red-600 to-amber-600 text-white text-center py-2 px-4 text-xs md:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+        <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
+        <span>Urgent Humanitarian Appeal: Flood Relief in Southern Brazil</span>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+        <div class="text-center mb-8">
+            <span class="inline-block bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-widest mb-3">
+                Emergency Response Fund
+            </span>
+            <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-4 text-white">
+                Help Victims of Floods in <span class="text-red-500">South Brazil</span>
+            </h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                Thousands of families have lost their homes due to severe climate disasters. Your donation provides immediate food, potable water, medical support, and emergency shelters.
+            </p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur">
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 text-center">
+                Select Your Donation Amount (USD)
+            </label>
+            <div class="grid grid-cols-3 gap-3 md:gap-4 mb-8">
+                <button onclick="selectAmount(5, this)" class="amount-btn border-2 border-slate-700 bg-slate-800/80 hover:border-red-500 py-4 rounded-2xl text-center transition flex flex-col items-center justify-center">
+                    <span class="text-2xl font-black text-white">$5</span>
+                    <span class="text-xs text-slate-400 mt-1">~ R$ 25</span>
+                </button>
+                <button onclick="selectAmount(15, this)" class="amount-btn border-2 border-red-500 bg-red-600/20 py-4 rounded-2xl text-center transition flex flex-col items-center justify-center shadow-lg shadow-red-500/20">
+                    <span class="text-2xl font-black text-white">$15</span>
+                    <span class="text-xs text-slate-300 mt-1">~ R$ 75</span>
+                </button>
+                <button onclick="selectAmount(25, this)" class="amount-btn border-2 border-slate-700 bg-slate-800/80 hover:border-red-500 py-4 rounded-2xl text-center transition flex flex-col items-center justify-center">
+                    <span class="text-2xl font-black text-white">$25</span>
+                    <span class="text-xs text-slate-400 mt-1">~ R$ 125</span>
+                </button>
+            </div>
+
+            <div class="flex border-b border-slate-800 mb-6">
+                <button id="tabCardBtn" onclick="switchTab('card')" class="flex-1 py-3 text-sm font-bold border-b-2 border-red-500 text-white flex items-center justify-center gap-2 transition">
+                    <i class="fa-regular fa-credit-card"></i> Credit Card (Global)
+                </button>
+                <button id="tabPixBtn" onclick="switchTab('pix')" class="flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-bolt text-emerald-400"></i> PIX (Instant)
+                </button>
+            </div>
+
+            <div id="cardSection" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">Donor Name / Nome Completo</label>
+                    <input type="text" placeholder="John Doe" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">Card Number / Número do Cartão</label>
+                    <div class="relative">
+                        <input type="text" placeholder="•••• •••• •••• ••••" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500">
+                        <div class="absolute right-4 top-3 text-slate-500 space-x-1">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Expiry Date / Validade</label>
+                        <input type="text" placeholder="MM/YY" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">CVV / CVC</label>
+                        <input type="password" maxlength="4" placeholder="•••" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500">
+                    </div>
+                </div>
+                <button onclick="processCardPayment()" class="w-full bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold py-4 rounded-xl text-base transition shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-lock"></i>
+                    <span id="donateCardLabel">Complete Donation of $15 USD</span>
+                </button>
+            </div>
+
+            <div id="pixSection" class="hidden text-center space-y-4">
+                <p class="text-xs text-slate-400">Escaneie o QR Code abaixo pelo aplicativo do seu banco ou copie a chave:</p>
+                <div class="bg-white p-4 rounded-2xl w-48 h-48 mx-auto flex items-center justify-center shadow-lg">
+                    <img id="pixQr" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=116c6467-47ad-4926-a224-8c5c9c24d66b" alt="QR Code PIX">
+                </div>
+                <div class="max-w-md mx-auto bg-slate-800/80 border border-slate-700 p-3 rounded-xl flex items-center justify-between gap-2">
+                    <span class="text-xs font-mono text-emerald-400 truncate">116c6467-47ad-4926-a224-8c5c9c24d66b</span>
+                    <button onclick="copyPixKey()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1 shrink-0">
+                        <i class="fa-regular fa-copy"></i> Copiar
+                    </button>
+                </div>
+                <p class="text-xs text-slate-500">Chave Aleatória Blindada • Nenhuma informação pessoal exposta</p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-shield-halved text-emerald-400"></i> 256-Bit SSL Encryption</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-earth-americas text-indigo-400"></i> Global Aid Initiative</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-heart text-red-500"></i> Direct Support</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedAmount = 15;
+        const donateCardLabel = document.getElementById('donateCardLabel');
+
+        function selectAmount(val, btn) {
+            selectedAmount = val;
+            document.querySelectorAll('.amount-btn').forEach(b => {
+                b.className = "amount-btn border-2 border-slate-700 bg-slate-800/80 hover:border-red-500 py-4 rounded-2xl text-center transition flex flex-col items-center justify-center";
+            });
+            btn.className = "amount-btn border-2 border-red-500 bg-red-600/20 py-4 rounded-2xl text-center transition flex flex-col items-center justify-center shadow-lg shadow-red-500/20";
+            donateCardLabel.innerText = `Complete Donation of $${selectedAmount} USD`;
+        }
+
+        function switchTab(type) {
+            const cardSection = document.getElementById('cardSection');
+            const pixSection = document.getElementById('pixSection');
+            const tabCardBtn = document.getElementById('tabCardBtn');
+            const tabPixBtn = document.getElementById('tabPixBtn');
+
+            if (type === 'card') {
+                cardSection.classList.remove('hidden');
+                pixSection.classList.add('hidden');
+                tabCardBtn.className = "flex-1 py-3 text-sm font-bold border-b-2 border-red-500 text-white flex items-center justify-center gap-2 transition";
+                tabPixBtn.className = "flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white flex items-center justify-center gap-2 transition";
+            } else {
+                cardSection.classList.add('hidden');
+                pixSection.classList.remove('hidden');
+                tabPixBtn.className = "flex-1 py-3 text-sm font-bold border-b-2 border-emerald-500 text-white flex items-center justify-center gap-2 transition";
+                tabCardBtn.className = "flex-1 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white flex items-center justify-center gap-2 transition";
+            }
+        }
+
+        function copyPixKey() {
+            navigator.clipboard.writeText("116c6467-47ad-4926-a224-8c5c9c24d66b");
+            alert("Chave PIX copiada com sucesso!");
+        }
+
+        function processCardPayment() {
+            alert(`Processando doação de $${selectedAmount} USD de forma segura!`);
+        }
+    </script>
+</body>
+</html>
