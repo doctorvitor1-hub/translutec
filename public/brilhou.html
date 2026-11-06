@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brilho do Natal • Decorações Iluminadas de Luxo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #fff;
+            opacity: 0.6;
+            font-size: 14px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(105vh); }
+        }
+        .glow-button {
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.45);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-950">
+
+    <script>
+        for (let i = 0; i < 25; i++) {
+            let flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.innerHTML = '❄';
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            flake.style.opacity = Math.random() * 0.7 + 0.3;
+            document.body.appendChild(flake);
+        }
+    </script>
+
+    <!-- FAIXA DO TOPO -->
+    <div class="bg-gradient-to-r from-red-700 via-amber-600 to-red-700 text-white text-center py-2.5 px-4 text-xs md:text-sm font-bold tracking-wide flex items-center justify-center gap-2 shadow-lg">
+        <i class="fa-solid fa-gift animate-bounce"></i>
+        <span>PROMOÇÃO DE NATAL: FRETE GRÁTIS PARA TODO O BRASIL + 5% OFF NO PIX!</span>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header class="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-black tracking-tight text-white">BRILHO DO <span class="text-amber-400">NATAL</span></span>
+            <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full font-semibold">Oficial 2026</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-semibold text-slate-300">
+            <span class="hidden md:flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Compra Segura</span>
+            <span class="hidden md:flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-amber-400"></i> Envio Imediato</span>
+            <button onclick="openCheckout()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-4 py-2 rounded-xl font-bold transition flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping"></i> Comprar Agora
+            </button>
+        </div>
+    </header>
+
+    <!-- PRODUTO -->
+    <main class="max-w-6xl mx-auto px-4 py-8 md:py-14">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            
+            <!-- GALERIA DE FOTOS DAS RENAS -->
+            <div>
+                <div class="relative bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl group">
+                    <span class="absolute top-4 left-4 z-10 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                        Mais Vendido do Natal
+                    </span>
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1543258103-a62bdc069871?q=80&w=1000&auto=format&fit=crop" alt="Renas Iluminadas de Natal" class="w-full h-[450px] object-cover transition-all duration-500 hover:scale-105">
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 mt-4">
+                    <button onclick="changePhoto(this.children[0].src)" class="border-2 border-amber-500 rounded-2xl overflow-hidden shadow-md">
+                        <img src="https://images.unsplash.com/photo-1543258103-a62bdc069871?q=80&w=1000&auto=format&fit=crop" class="w-full h-24 object-cover">
+                    </button>
+                    <button onclick="changePhoto(this.children[0].src)" class="border-2 border-slate-800 hover:border-amber-500 rounded-2xl overflow-hidden shadow-md transition">
+                        <img src="https://images.unsplash.com/photo-1512474932049-78ac69eedec9?q=80&w=1000&auto=format&fit=crop" class="w-full h-24 object-cover">
+                    </button>
+                    <button onclick="changePhoto(this.children[0].src)" class="border-2 border-slate-800 hover:border-amber-500 rounded-2xl overflow-hidden shadow-md transition">
+                        <img src="https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?q=80&w=1000&auto=format&fit=crop" class="w-full h-24 object-cover">
+                    </button>
+                </div>
+                <p class="text-xs text-center text-slate-500 mt-2"><i class="fa-solid fa-camera mr-1"></i> Fotos reais do produto para ambientes internos e jardins</p>
+            </div>
+
+            <!-- OFERTA E COMPRA -->
+            <div class="flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-xs text-slate-400 font-medium">(184 avaliações 5 estrelas)</span>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-black text-white leading-tight mb-3">
+                    Família de Renas <span class="text-amber-400">LED Iluminadas</span>
+                </h1>
+                
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    A decoração natalina mais desejada do ano! Estrutura de metal branco de alta durabilidade com motivos de flocos de neve, laço vermelho de veludo e micro-LEDs de luz quente acolhedora.
+                </p>
+
+                <!-- PREÇO -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 mb-6 shadow-xl relative overflow-hidden">
+                    <div class="flex items-baseline gap-3 mb-1">
+                        <span class="text-xs text-slate-500 line-through">De R$ 349,90</span>
+                        <span class="bg-red-600/20 text-red-400 border border-red-500/30 text-xs px-2.5 py-0.5 rounded-full font-bold">ECONOMIZE R$ 150</span>
+                    </div>
+
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span class="text-4xl md:text-5xl font-black text-white">R$ 199,90</span>
+                        <span class="text-sm font-semibold text-emerald-400">à vista no PIX</span>
+                    </div>
+
+                    <p class="text-xs text-slate-400 mb-4">
+                        ou em até <strong class="text-slate-200">12x de R$ 19,90</strong> no cartão de crédito
+                    </p>
+
+                    <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3 flex items-center justify-between text-xs">
+                        <span class="text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-orange-400"></i> Últimas 7 unidades no estoque
+                        </span>
+                        <span id="countdown" class="font-mono font-bold text-amber-400">03:42:18</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-6 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-droplet text-cyan-400"></i> À prova d'água (Chuva e Sol)</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-400"></i> Baixíssimo consumo de luz</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-box-open text-emerald-400"></i> Montagem rápida</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-certificate text-indigo-400"></i> Bivolt 110v/220v</div>
+                </div>
+
+                <button onclick="openCheckout()" class="w-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black py-4 px-6 rounded-2xl text-lg transition duration-300 flex items-center justify-center gap-3 glow-button transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    COMPRAR AGORA COM DESCONTO
+                </button>
+
+                <p class="text-center text-xs text-slate-500 mt-3 flex items-center justify-center gap-3">
+                    <span><i class="fa-solid fa-lock text-emerald-400 mr-1"></i> Pagamento 100% Criptografado</span>
+                    <span><i class="fa-solid fa-arrow-rotate-left text-amber-400 mr-1"></i> 7 Dias de Garantia</span>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-3xl max-w-md w-full shadow-2xl relative">
+            <button onclick="closeCheckout()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+
+            <h3 class="text-xl font-bold text-white mb-1">Finalizar Compra Segura</h3>
+            <p class="text-xs text-slate-400 mb-6">Escolha como deseja pagar:</p>
+
+            <div class="space-y-3">
+                <button onclick="payWithPix()" class="w-full bg-emerald-600/10 border-2 border-emerald-500/50 hover:border-emerald-500 p-4 rounded-2xl text-left transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bolt text-2xl text-emerald-400"></i>
+                        <div>
+                            <span class="block text-sm font-bold text-white">Pagar com PIX</span>
+                            <span class="text-xs text-emerald-400 font-medium">Desconto imediato</span>
+                        </div>
+                    </div>
+                    <span class="text-base font-bold text-white">R$ 199,90</span>
+                </button>
+
+                <button onclick="payWithCard()" class="w-full bg-slate-800/80 border-2 border-slate-700 hover:border-amber-500 p-4 rounded-2xl text-left transition flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-regular fa-credit-card text-2xl text-amber-400"></i>
+                        <div>
+                            <span class="block text-sm font-bold text-white">Cartão de Crédito</span>
+                            <span class="text-xs text-slate-400">Até 12x com proteção 3DS</span>
+                        </div>
+                    </div>
+                    <span class="text-sm font-bold text-slate-300">12x R$ 19,90</span>
+                </button>
+            </div>
+
+            <div id="pixPaymentArea" class="hidden mt-6 pt-6 border-t border-slate-800 text-center">
+                <p class="text-xs text-slate-300 mb-3 font-semibold">Chave PIX Blindada da Loja:</p>
+                <div class="bg-slate-800 p-3 rounded-xl flex items-center justify-between mb-3 border border-slate-700">
+                    <span class="font-mono text-xs text-emerald-400 truncate">116c6467-47ad-4926-a224-8c5c9c24d66b</span>
+                    <button onclick="copyPix()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition">Copiar</button>
+                </div>
+                <p class="text-xs text-slate-500">Envie o comprovante para envio imediato com código de rastreio.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="max-w-6xl mx-auto px-4 py-8 border-t border-slate-800/80 text-center text-xs text-slate-500">
+        <p>© 2026 Brilho do Natal • Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        function changePhoto(src) { document.getElementById('mainImage').src = src; }
+        function openCheckout() { document.getElementById('checkoutModal').classList.remove('hidden'); document.getElementById('checkoutModal').classList.add('flex'); }
+        function closeCheckout() { document.getElementById('checkoutModal').classList.add('hidden'); document.getElementById('checkoutModal').classList.remove('flex'); }
+        function payWithPix() { document.getElementById('pixPaymentArea').classList.remove('hidden'); }
+        function payWithCard() { alert('Redirecionando para o Checkout Seguro com 3D Secure da Stripe...'); }
+        function copyPix() { navigator.clipboard.writeText("116c6467-47ad-4926-a224-8c5c9c24d66b"); alert("Chave PIX copiada com sucesso!"); }
+
+        let totalSec = 13338;
+        setInterval(() => {
+            if (totalSec > 0) {
+                totalSec--;
+                let h = Math.floor(totalSec / 3600);
+                let m = Math.floor((totalSec % 3600) / 60);
+                let s = totalSec % 60;
+                document.getElementById('countdown').innerText = 
+                    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
