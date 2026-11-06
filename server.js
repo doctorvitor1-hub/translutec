@@ -1,13 +1,12 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const crypto = require('crypto'); // Módulo de segurança nativo
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// SENHA BLINDADA / EMBARALHADA (Hash SHA-256 da sua senha master)
-// No GitHub aparece apenas este código criptografado indecifrável:
+// SENHA BLINDADA (Hash SHA-256 da sua senha master: admin123)
 const MASTER_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
 
 const DB_FILE = path.join(__dirname, 'database.json');
@@ -15,10 +14,16 @@ if (!fs.existsSync(DB_FILE)) {
     fs.writeFileSync(DB_FILE, JSON.stringify([]));
 }
 
+// ATIVA O PROCESSAMENTO DE DADOS E ARQUIVOS VISUAIS
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ROTA DO PAINEL DO DONO
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+// ROTA DA CAMPANHA SOS SUL
 app.get('/ajuda', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'donate.html'));
 });
@@ -53,8 +58,6 @@ app.post('/api/translate', async (req, res) => {
 // Acesso com validação criptográfica do Dono
 app.post('/api/admin/logs', (req, res) => {
     const { password } = req.body;
-    
-    // Converte a senha digitada em código hash para comparar
     const inputHash = crypto.createHash('sha256').update(password || '').digest('hex');
 
     if (inputHash !== MASTER_HASH) {
