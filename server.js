@@ -15,6 +15,10 @@ if (!fs.existsSync(DB_FILE)) {
     fs.writeFileSync(DB_FILE, JSON.stringify([]));
 }
 
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.get('/ajuda', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'donate.html'));
 });
