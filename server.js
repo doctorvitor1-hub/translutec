@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 3000;
 const MASTER_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
 const SALT_SECRETO = 'TRANSLUTEC_SECRET_KEY_2026';
 const TEMPO_VALIDADE = 300; // 5 minutos
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 function getChavesDinamicasValidas() {
     const janelaAtual = Math.floor(Date.now() / 1000 / TEMPO_VALIDADE);
@@ -38,6 +40,41 @@ app.get('/admin', (req, res) => {
 app.get('/brilhou', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'brilhou.html'));
 });
+app.post('/api/checkout-renas', async (req, res) => {
+    try {
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const session = await stripe.checkout.sessions.create({
+
+            mode: 'payment',
+            line_items: [{
+                price_data: {
+                    currency: 'brl',
+
+                    product_data: {
+                        name: 'Kit Família de Renas Iluminadas LED (3 Peças)',
+                        description: 'Armação reforçada em metal branco, laços vermelhos e micro-LEDs bivolt.'
+                    },
+                    unit_amount: 19990,
+                },
+                quantity: 1,
+            }],
+            payment_method_options: {
+                card: {
+                    request_three_d_secure: 'automatic'
+                }
+            },
+            success_url: `${baseUrl}/brilhou?status=aprovado`,
+            cancel_url: `${baseUrl}/brilhou?status=cancelado`,
+
+        });
+
+        res.json({ url: session.url });
+    } catch (err) {
+        console.error('Erro Stripe:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 app.post('/api/translate', async (req, res) => {
     const { email, text, targetLang } = req.body;
