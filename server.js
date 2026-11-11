@@ -35,8 +35,8 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
-app.get('/ajuda', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'donate.html'));
+app.get('/brilhou', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'brilhou.html'));
 });
 
 app.post('/api/translate', async (req, res) => {
