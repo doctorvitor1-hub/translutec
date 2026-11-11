@@ -40,21 +40,40 @@ app.get('/admin', (req, res) => {
 app.get('/brilhou', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'brilhou.html'));
 });
+const CATALOGO_NATAL = {
+    'renas': {
+        nome: 'Kit Família de Renas Iluminadas LED (3 Peças)',
+        descricao: 'Armação reforçada em metal branco, laços vermelhos e micro-LEDs bivolt.',
+        preco: 4990 // R$ 49,90
+    },
+    'arvore-luxo': {
+        nome: 'Árvore de Natal 1,50m Super Luxo (Super Black Friday)',
+        descricao: 'Pinheiro tradicional verde denso de 1,50m com base reforçada.',
+        preco: 5990 // R$ 59,90
+    },
+    'arvore-nevada': {
+        nome: 'Árvore de Natal Nevada na Juta 90cm (105 Galhos)',
+        descricao: 'Pinheiro com efeito neve realista e base decorativa em juta.',
+        preco: 2990 // R$ 29,90
+    }
+};
+
 app.post('/api/checkout-renas', async (req, res) => {
     try {
+        const produtoId = req.body.produtoId || 'renas';
+        const item = CATALOGO_NATAL[produtoId] || CATALOGO_NATAL['renas'];
         const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const session = await stripe.checkout.sessions.create({
 
+        const session = await stripe.checkout.sessions.create({
             mode: 'payment',
             line_items: [{
                 price_data: {
                     currency: 'brl',
-
                     product_data: {
-                        name: 'Kit Família de Renas Iluminadas LED (3 Peças)',
-                        description: 'Armação reforçada em metal branco, laços vermelhos e micro-LEDs bivolt.'
+                        name: item.nome,
+                        description: item.descricao
                     },
-                    unit_amount: 19990,
+                    unit_amount: item.preco,
                 },
                 quantity: 1,
             }],
@@ -65,7 +84,6 @@ app.post('/api/checkout-renas', async (req, res) => {
             },
             success_url: `${baseUrl}/brilhou?status=aprovado`,
             cancel_url: `${baseUrl}/brilhou?status=cancelado`,
-
         });
 
         res.json({ url: session.url });
@@ -74,6 +92,7 @@ app.post('/api/checkout-renas', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
 
 
 app.post('/api/translate', async (req, res) => {
